@@ -19,18 +19,24 @@ public class LoginPage {
     private final By buttonEmail = byXpath(".//fieldset[1]//input");
     //Локатор для поля "Пароль"
     private final By buttonPassword = byXpath(".//fieldset[2]//input");
-
+    //Локатор для логотипа
     private final By logo = byXpath(".//div[@class='AppHeader_header__logo__2D0X2']/a");
 
 
-    //Нажать на кнопку "Восстановить пароль"
-    public void clickRegistration() {
+    //Нажать на кнопку "Зарегистрироваться" и дождаться загрузки страницы регистрации
+    public RegistrationPage clickRegistration() {
         $(buttonRegistration).click();
+        RegistrationPage registrationPage = page(RegistrationPage.class);
+        registrationPage.waitForLoadRegistrationPage();
+        return registrationPage;
     }
 
-    //Нажать на кнопку "Восстановить пароль"
-    public void clickResetPassword() {
+    //Нажать на кнопку "Восстановить пароль"  и дождаться загрузки страницы восстановления пароля
+    public ResetPasswordPage clickResetPassword() {
         $(buttonResetPassword).click();
+        ResetPasswordPage resetPasswordPage = new ResetPasswordPage();
+        resetPasswordPage.waitForLoadResetPasswordPage();
+        return resetPasswordPage;
     }
 
     //Проверить отображение кнопки "Войти"
@@ -50,11 +56,11 @@ public class LoginPage {
     public void setPassword(String password) {
         $(buttonPassword).setValue(password);
     }
-
+    //Дождаться загрузки страницы авторизации (проверяем видимость кнопки "Войти")
     public void waitForLoadLoginPage(){
         $(buttonLogin).shouldBe(visible);
     }
-
+    //Заолнить все поля, нажать "Войти" и дождаться загрузки домашней страницы
     public HomePage setLoginFields(String email, String password) {
         setEmail(email);
         setPassword(password);
@@ -63,7 +69,7 @@ public class LoginPage {
         homePage.waitForLoadHomePage();
         return homePage;
     }
-  //  Нажать на кнопку логотип
+  //  Нажать на логотип и дождаться загрузки домашней страницы
     public HomePage clickLogo() {
         $(logo).click();
         HomePage homePage = page(HomePage.class);

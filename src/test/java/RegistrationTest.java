@@ -1,6 +1,6 @@
 import com.codeborne.selenide.WebDriverRunner;
+import dataGenerator.DefaultUserData;
 import deleteData.DeleteUser;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import pageDescription.LoginPage;
@@ -12,14 +12,12 @@ import static org.junit.Assert.assertEquals;
 public class RegistrationTest {
 
     protected final String loginUrl = "https://stellarburgers.nomoreparties.site/login";
-    protected DefaultUserData defaultUserData;
     protected LoginPage loginPage;
     protected RegistrationPage registrationPage;
 
 
     @Before
     public void setUp() {
-        defaultUserData = new DefaultUserData();
         open(loginUrl);
         loginPage = new LoginPage();
         registrationPage = new RegistrationPage();
@@ -27,15 +25,13 @@ public class RegistrationTest {
 
 
     @Test
-    public void RegistrationUserTest() {
-       // DefaultUserData defaultUserData = new DefaultUserData();
+    public void RegistrationUserTest() throws InterruptedException {
+       // dataGenerator.DefaultUserData defaultUserData = new dataGenerator.DefaultUserData();
        // open(loginUrl);
         // создаем объект класса главной страницы приложения
        // LoginPage loginPage = new LoginPage();
         loginPage.clickRegistration();
-
-       // RegistrationPage registrationPage = new RegistrationPage();
-        registrationPage.setRegistrationFields(defaultUserData.getDEFAULT_USER_NAME(),defaultUserData.getDEFAULT_USER_EMAIL(),defaultUserData.getDEFAULT_USER_PASSWORD());
+        registrationPage.setRegistrationFields(DefaultUserData.DEFAULT_USER_NAME,DefaultUserData.DEFAULT_USER_EMAIL,DefaultUserData.DEFAULT_USER_PASSWORD);
         String currentUrl = WebDriverRunner.getWebDriver().getCurrentUrl();
         assertEquals("Текущий URL не совпадает с URL страницы входа",loginUrl, currentUrl);
         DeleteUser deleteUser = new DeleteUser();
@@ -44,13 +40,12 @@ public class RegistrationTest {
 
     @Test
     public void passwordErrorTest() {
-       // DefaultUserData defaultUserData = new DefaultUserData();
+       // dataGenerator.DefaultUserData defaultUserData = new dataGenerator.DefaultUserData();
       //  open(loginUrl);
         // создаем объект класса главной страницы приложения
        // LoginPage loginPage = new LoginPage();
         loginPage.clickRegistration();
-      //  RegistrationPage registrationPage = new RegistrationPage();
-        registrationPage.setPassword(defaultUserData.getERROR_USER_PASSWORD());
+        registrationPage.setPassword(DefaultUserData.ERROR_USER_PASSWORD);
         registrationPage.clickRegistration();
         registrationPage.checkVisibleErrorPasswordMessage();
 

@@ -1,4 +1,5 @@
 import com.codeborne.selenide.WebDriverRunner;
+import dataGenerator.DefaultUserData;
 import deleteData.DeleteUser;
 import org.junit.After;
 import org.junit.Before;
@@ -15,25 +16,21 @@ import static org.junit.Assert.assertEquals;
 public class LoginTests {
     protected final String homePageUrl = "https://stellarburgers.nomoreparties.site/";
     protected final String loginPageUrl = "https://stellarburgers.nomoreparties.site/login";
-    protected DefaultUserData defaultUserData;
     protected HomePage homePage;
     protected LoginPage loginPage;
-
-    RegistrationPage registrationPage;
+    protected RegistrationPage registrationPage;
 
     @Before
     public void createUser() {
-        defaultUserData = new DefaultUserData();
         open(loginPageUrl);
         loginPage = new LoginPage();
-        loginPage.clickRegistration();
-        registrationPage = new RegistrationPage();
-        registrationPage.setRegistrationFields(defaultUserData.getDEFAULT_USER_NAME(),defaultUserData.getDEFAULT_USER_EMAIL(),defaultUserData.getDEFAULT_USER_PASSWORD());
+        registrationPage = loginPage.clickRegistration();
+        registrationPage.setRegistrationFields(DefaultUserData.DEFAULT_USER_NAME,DefaultUserData.DEFAULT_USER_EMAIL,DefaultUserData.DEFAULT_USER_PASSWORD);
 
     }
 
     @After
-    public void deleteUser() {
+    public void deleteUser() throws InterruptedException {
         DeleteUser deleteUser = new DeleteUser();
         deleteUser.deleteUser();
     }
@@ -41,11 +38,9 @@ public class LoginTests {
 
     @Test
     public void LoginWithButtonSignIn() {
-        loginPage.clickLogo();
-        homePage = new HomePage();
+        homePage = loginPage.clickLogo();
         homePage.clickSignInAccount();
-        loginPage.checkVisibleLoginButton();
-        loginPage.setLoginFields(defaultUserData.getDEFAULT_USER_EMAIL(),defaultUserData.getDEFAULT_USER_PASSWORD());
+        loginPage.setLoginFields(DefaultUserData.DEFAULT_USER_EMAIL,DefaultUserData.DEFAULT_USER_PASSWORD);
         homePage.checkButtonCreateOrder();
         String currentUrl = WebDriverRunner.getWebDriver().getCurrentUrl();
         assertEquals("Текущий URL не совпадает с URL домашней страницы",homePageUrl, currentUrl);
@@ -53,11 +48,10 @@ public class LoginTests {
 
     @Test
     public void LoginWithPersonalAccount() {
-        loginPage.clickLogo();
-        homePage = new HomePage();
+        homePage = loginPage.clickLogo();
         homePage.clickPersonalAccount();
         loginPage.checkVisibleLoginButton();
-        loginPage.setLoginFields(defaultUserData.getDEFAULT_USER_EMAIL(),defaultUserData.getDEFAULT_USER_PASSWORD());
+        loginPage.setLoginFields(DefaultUserData.DEFAULT_USER_EMAIL,DefaultUserData.DEFAULT_USER_PASSWORD);
         homePage.checkButtonCreateOrder();
         String currentUrl = WebDriverRunner.getWebDriver().getCurrentUrl();
         assertEquals("Текущий URL не совпадает с URL домашней страницы",homePageUrl, currentUrl);
@@ -67,7 +61,7 @@ public class LoginTests {
     public void LoginFromRegistrationForm() {
         loginPage.clickRegistration();
         registrationPage.clickLoginButton();
-        homePage = loginPage.setLoginFields(defaultUserData.getDEFAULT_USER_EMAIL(),defaultUserData.getDEFAULT_USER_PASSWORD());
+        homePage = loginPage.setLoginFields(DefaultUserData.DEFAULT_USER_EMAIL,DefaultUserData.DEFAULT_USER_PASSWORD);
         homePage.checkButtonCreateOrder();
         String currentUrl = WebDriverRunner.getWebDriver().getCurrentUrl();
         assertEquals("Текущий URL не совпадает с URL домашней страницы",homePageUrl, currentUrl);
@@ -76,20 +70,12 @@ public class LoginTests {
     }
     @Test
     public void LoginFromResetPassswordForm() {
-        loginPage.clickResetPassword();
-        ResetPasswordPage resetPasswordPage = new ResetPasswordPage();
+        ResetPasswordPage resetPasswordPage = loginPage.clickResetPassword();
+      //  ResetPasswordPage resetPasswordPage = new ResetPasswordPage();
         resetPasswordPage.clickLoginButton();
-        homePage = loginPage.setLoginFields(defaultUserData.getDEFAULT_USER_EMAIL(),defaultUserData.getDEFAULT_USER_PASSWORD());
+        homePage = loginPage.setLoginFields(DefaultUserData.DEFAULT_USER_EMAIL,DefaultUserData.DEFAULT_USER_PASSWORD);
         homePage.checkButtonCreateOrder();
         String currentUrl = WebDriverRunner.getWebDriver().getCurrentUrl();
         assertEquals("Текущий URL не совпадает с URL домашней страницы",homePageUrl, currentUrl);
-        //    homePage.checkButtonCreateOrder();
-//
-//        homePage = loginPage.setLoginFields(defaultUserData.getDEFAULT_USER_EMAIL(),defaultUserData.getDEFAULT_USER_PASSWORD());
-//        homePage.checkButtonCreateOrder();
-//        String currentUrl = WebDriverRunner.getWebDriver().getCurrentUrl();
-//        assertEquals("Текущий URL не совпадает с URL домашней страницы",homePageUrl, currentUrl);
-        //    homePage.checkButtonCreateOrder();
-
     }
 }

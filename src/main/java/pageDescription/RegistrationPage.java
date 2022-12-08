@@ -61,4 +61,7 @@ public class RegistrationPage {
         $(buttonLogin).click();
     }
 
+    public void waitForLoadRegistrationPage() {
+        $(buttonName).shouldBe(visible);
+    }
 }

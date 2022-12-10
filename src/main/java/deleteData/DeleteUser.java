@@ -1,6 +1,7 @@
 package deleteData;
 
 import dataGenerator.Credentials;
+import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.response.ValidatableResponse;
 
@@ -10,13 +11,13 @@ public class DeleteUser {
     private static final String PATH_LOGIN = "/api/auth/login";
     private  static final String PATH_DELETE_AND_CHANGE = "/api/auth/user";
 
-
+    @Step("Delete user")
     public void deleteUser() throws InterruptedException {
         RestAssured.baseURI = "https://stellarburgers.nomoreparties.site";
         Credentials credentials = Credentials.from();
-        Thread.sleep(3000);
+        Thread.sleep(1000);
         ValidatableResponse responseLogin = login(credentials);
-        Thread.sleep(3000);
+        Thread.sleep(1000);
         String accessToken = responseLogin.extract().path("accessToken");
         delete(accessToken);
     }

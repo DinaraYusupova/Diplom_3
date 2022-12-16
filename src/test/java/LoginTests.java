@@ -28,7 +28,7 @@ public class LoginTests {
     }
 
     @After
-    public void deleteUser() throws InterruptedException {
+    public void deleteUser() {
         DeleteUser deleteUser = new DeleteUser();
         deleteUser.deleteUser();
     }

@@ -27,14 +27,14 @@ public class PersonalAccountTest {
         homePage = loginPage.setLoginFields(DefaultUserData.DEFAULT_USER_EMAIL, DefaultUserData.DEFAULT_USER_PASSWORD);
     }
     @After
-    public void deleteUser() throws InterruptedException {
+    public void deleteUser() {
         DeleteUser deleteUser = new DeleteUser();
         deleteUser.deleteUser();
     }
     //Выход по кнопке «Выйти» в личном кабинете
     @Test
     @DisplayName("Exit from personal account and check URL and loin button")
-    public void ExitPersonalAccountWithAutorization() throws InterruptedException {
+    public void ExitPersonalAccountWithAutorization() {
         homePage.clickPersonalAccount();
         PersonalAccountPage personalAccountPage = new PersonalAccountPage();
         personalAccountPage.clickExit();

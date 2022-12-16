@@ -4,7 +4,6 @@ import deleteData.DeleteUser;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Before;
 import org.junit.Test;
-import pageDescription.LoginPage;
 import pageDescription.RegistrationPage;
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.Assert.assertEquals;
@@ -23,7 +22,7 @@ public class RegistrationTest {
     }
     @Test
     @DisplayName("Registration new user and check URL and login button")
-    public void RegistrationUserTest() throws InterruptedException {
+    public void RegistrationUserTest() {
         registrationPage.setRegistrationFields(DefaultUserData.DEFAULT_USER_NAME,DefaultUserData.DEFAULT_USER_EMAIL,DefaultUserData.DEFAULT_USER_PASSWORD);
         String currentUrl = WebDriverRunner.getWebDriver().getCurrentUrl();
         assertEquals("Текущий URL не совпадает с URL страницы входа",loginUrl, currentUrl);

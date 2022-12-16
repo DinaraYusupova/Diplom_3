@@ -31,7 +31,7 @@ public class PageSwitchingWithAuthorization {
         homePage = loginPage.setLoginFields(DefaultUserData.DEFAULT_USER_EMAIL, DefaultUserData.DEFAULT_USER_PASSWORD);
     }
     @After
-    public void deleteUser() throws InterruptedException {
+    public void deleteUser() {
         DeleteUser deleteUser = new DeleteUser();
         deleteUser.deleteUser();
     }
@@ -39,7 +39,7 @@ public class PageSwitchingWithAuthorization {
     //Переход из личного кабинета в конструктор
     @Test
     @DisplayName("Switch from personal account to the home page and check URL and create order button")
-    public void SwitchToHomePageWithAuthorization() throws InterruptedException {
+    public void SwitchToHomePageWithAuthorization() {
         //Заходим на страницу "Личный кабинет"
         homePage.clickPersonalAccount();
         PersonalAccountPage personalAccountPage = new PersonalAccountPage();
@@ -52,7 +52,7 @@ public class PageSwitchingWithAuthorization {
     //Переход по клику на «Личный кабинет»
     @Test
     @DisplayName("Switch from home page to personal account and check URL and exit button")
-    public void SwitchToPersonalAccountWithAuthorization() throws InterruptedException {
+    public void SwitchToPersonalAccountWithAuthorization() {
         homePage.clickPersonalAccount();
         PersonalAccountPage personalAccountPage = new PersonalAccountPage();
         personalAccountPage.checkVisibleExitButton();
